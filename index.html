@@ -1,0 +1,133 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>REG Study Tracker</title><style>
+:root{--bg:#f7f8fb;--surface:#fff;--ink:#202b3c;--muted:#8791a2;--line:#e9edf3;--accent:#5865d8;--soft:#eef0ff;--green:#1caa87;--radius:18px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,"Pretendard","Noto Sans KR",system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:-.2px}
+.shell{display:flex;min-height:100vh;align-items:stretch}
+aside{width:250px;flex:none;background:#fff;border-right:1px solid var(--line);padding:33px 19px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{font-weight:850;font-size:21px;letter-spacing:-.9px;padding:0 12px;color:#202b3c}.brand span{color:var(--accent)}
+aside>.muted{padding:0 12px;font-size:12px;margin:5px 0 0}
+nav{display:flex;flex-direction:column;gap:6px;margin-top:47px}
+button{font:inherit;cursor:pointer;border:1px solid #e2e7f0;border-radius:11px;background:#fff;color:#39465c;padding:10px 15px;transition:background .15s,border-color .15s,transform .15s}
+button:hover{background:#f6f7fb;border-color:#cdd4e2}
+button:active{transform:translateY(1px)}
+button:disabled{opacity:.35;cursor:not-allowed}
+nav button{border:0;text-align:left;background:transparent;color:#718095;font-weight:600;padding:13px 14px}
+nav button:hover{background:#f7f8fc}
+nav button.active{background:#eef0ff;color:#505bd0}
+.asidefoot{margin-top:auto;font-size:11px;color:#98a3b3;padding:12px;border-top:1px solid var(--line)}
+main{width:100%;max-width:1520px;margin:0 auto;padding:44px 52px 22px}
+header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px}
+.eyebrow{font-size:10px;letter-spacing:2.5px;font-weight:800;color:var(--accent)}
+h1{font-size:29px;line-height:1.2;margin:8px 0 8px;letter-spacing:-1.3px;font-weight:800}
+h2{font-size:16px;letter-spacing:-.45px;margin:0 0 19px;font-weight:760}
+.muted{color:var(--muted)}
+header .muted{margin:0}
+.pill{background:var(--soft);border:1px solid #dfe3ff;color:#555fce;padding:10px 16px;border-radius:99px;font-weight:750;white-space:nowrap;font-size:12px}
+.page{display:none}.page.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:21px}
+.stat,.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:0 5px 24px rgba(30,45,75,.025)}
+.stat{padding:22px 23px;min-height:150px}
+.stat span{font-size:12px;color:#8b95a4;font-weight:650}
+.stat strong{display:block;font-size:29px;letter-spacing:-1.3px;margin:10px 0 5px;color:#263147;font-weight:820}
+.stat:first-child strong{color:var(--accent)}
+.stat small{font-size:11px;color:#9ba5b2}
+.track{height:7px;background:#edf0f5;border-radius:20px;overflow:hidden;margin-top:11px}
+.track div{height:100%;background:var(--accent);border-radius:20px;width:0}
+.cols{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);gap:20px}
+.panel{padding:25px;margin-bottom:20px}
+.panelhead{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:6px}
+.panelhead h2{margin-bottom:12px}
+.panelhead input,.panelhead select{width:auto;max-width:210px}
+.task{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid #f0f2f6;color:#42506a;font-weight:530;margin:0}
+.task input{appearance:none;width:19px;height:19px;flex:none;border:1.6px solid #c9d1de;border-radius:6px;margin:1px 0 0;cursor:pointer}
+.task input:checked{background:var(--green);border-color:var(--green)}
+.task input:checked:after{content:"✓";display:block;color:white;text-align:center;font-weight:800;line-height:16px}
+.task span{flex:1}
+.task.done span{text-decoration:line-through;color:#a3adbb}
+.inline{display:flex;gap:10px;align-items:end;margin-top:17px}
+.inline>*{flex:1;min-width:0}
+input,select,textarea{width:100%;border:1px solid #e1e6ef;background:#fff;border-radius:10px;padding:11px 12px;font:inherit;color:#28364b;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#949ce9;box-shadow:0 0 0 3px #eef0ff}
+input::placeholder,textarea::placeholder{color:#a6b0be}
+label{display:block;font-size:12px;font-weight:700;color:#647189;margin-bottom:14px}
+label input,label select,label textarea{margin-top:7px}
+.primary{background:var(--accent);border-color:var(--accent);color:white;font-weight:720}
+.primary:hover{background:#4a55c5;border-color:#4a55c5}
+.methods{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.methods>div{background:#f8f9fd;border:1px solid #f0f2f7;padding:19px;border-radius:13px}
+.methods b{font-size:13px;color:#34425b}
+.methods p{margin:7px 0 0;color:#8793a6;font-size:12px;line-height:1.8}
+.mini,.entry{padding:13px 0;border-bottom:1px solid #f0f2f6}
+.entry b{font-size:13px}
+.entry small{color:#929dac}
+.entry p{white-space:pre-wrap;color:#526078}
+.entry button{padding:5px 10px;font-size:11px;margin-left:8px}
+.bar{height:7px;background:#edf0f5;border-radius:9px;overflow:hidden;margin:8px 0 17px}
+.bar div{height:100%;background:var(--accent);border-radius:9px}
+.upload{display:inline-block;background:#fff;border:1px solid #e2e7f0;border-radius:10px;padding:11px 15px;cursor:pointer;margin:0;text-align:center}
+footer{font-size:11px;color:#a3adba;margin:22px 0}
+@media(max-width:1080px){aside{width:210px}main{padding:30px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.cols{grid-template-columns:1fr}}
+@media(max-width:700px){.shell{display:block}aside{position:static;width:100%;height:auto;padding:15px 15px 10px}.brand{font-size:18px}aside>.muted,.asidefoot{display:none}nav{flex-direction:row;overflow-x:auto;margin-top:12px;gap:3px}nav button{white-space:nowrap;font-size:12px;padding:10px}main{padding:22px 14px}header{align-items:flex-start}h1{font-size:24px}.pill{font-size:10px;padding:8px 10px}.panel{padding:18px}.stat{padding:17px;min-height:126px}.stat strong{font-size:24px}.methods{grid-template-columns:1fr}.panelhead{flex-wrap:wrap}}
+</style></head><body><div class="shell"><aside><div class="brand">✦ REG <span>STUDY</span></div><p class="muted">CPA Exam · Maine</p><nav><button data-tab="dashboard" class="active">⌂ 대시보드</button><button data-tab="planner">▦ 주간 계획</button><button data-tab="scores">▥ MCQ 기록</button><button data-tab="reviews">☷ 오답 복습</button><button data-tab="settings">⚙ 설정 · 백업</button></nav><p class="asidefoot">Gleim · Digital Book + Test Bank<br>기록은 현재 브라우저에 저장됩니다.</p></aside><main><header><div><div class="eyebrow">MY CPA JOURNEY</div><h1 id="heading">오늘의 공부</h1><p class="muted" id="subheading">작은 진도를 매일 쌓아가세요.</p></div><div class="pill" id="examPill"></div></header><section id="dashboard" class="page active"><div class="stats"><div class="stat"><span>시험까지</span><strong id="dday">—</strong><small id="examDate"></small></div><div class="stat"><span>전체 계획 완료</span><strong id="progressNum">0%</strong><div class="track"><div id="progressBar"></div></div></div><div class="stat"><span>누적 공부 시간</span><strong id="hoursNum">0h</strong><small>목표: 하루 120분</small></div><div class="stat"><span>전체 MCQ 정답률</span><strong id="accuracyNum">—</strong><small id="questionsNum">기록 없음</small></div></div><div class="cols"><div class="panel"><div class="panelhead"><h2>오늘의 To-do</h2><input type="date" id="dayPicker"></div><div id="todayTasks"></div><form id="customTaskForm" class="inline"><input id="customTask" placeholder="오늘 할 일 추가" required><button class="primary">추가</button></form></div><div class="panel"><h2>공부 기록</h2><form id="studyForm"><label>오늘 공부한 시간 (분)<input id="minutes" type="number" min="0" max="1440" value="120" required></label><label>간단 메모<textarea id="studyMemo" rows="3" placeholder="예: Agency 개념이 헷갈림"></textarea></label><button class="primary">오늘 공부 저장</button></form><div id="studyHistory" class="mini"></div></div></div><div class="panel"><h2>오늘의 공부 방식</h2><div class="methods"><div><b>Business Law</b><p>Test Bank MCQ 70분 → 해설·오답 35분 → 이전 오답 15분</p></div><div><b>Taxation</b><p>Digital Book 45분 → Test Bank 55분 → 오답·복습 20분</p></div></div></div></section><section id="planner" class="page"><div class="panel"><div class="panelhead"><h2>주차별 학습 계획</h2><select id="weekSelect"></select></div><p class="muted" id="weekGoal"></p><div id="weekTasks"></div><div class="inline"><button id="prevWeek">← 이전 주</button><button id="nextWeek">다음 주 →</button></div></div><div class="panel"><h2>학습 운영 원칙</h2><p>Law: 문제부터 시작 · Tax: 개념 확인 후 문제풀이 · 오답노트는 하루 핵심 3~5개만 기록 · 매주 일요일 취약 단원 점검</p></div></section><section id="scores" class="page"><div class="cols"><div class="panel"><h2>MCQ 결과 입력</h2><form id="scoreForm"><label>날짜<input id="scoreDate" type="date" required></label><label>Gleim Unit<select id="scoreUnit"></select></label><div class="inline"><label>문제 수<input id="scoreTotal" type="number" min="1" required></label><label>정답 수<input id="scoreCorrect" type="number" min="0" required></label></div><label>메모<input id="scoreMemo" placeholder="예: Partnership, LLC"></label><button class="primary">성적 저장</button></form></div><div class="panel"><h2>Unit별 성적</h2><div id="unitScores"></div></div></div><div class="panel"><h2>MCQ 기록 내역</h2><div id="scoreHistory"></div></div></section><section id="reviews" class="page"><div class="cols"><div class="panel"><h2>오답 개념 기록</h2><form id="reviewForm"><label>Gleim Unit<select id="reviewUnit"></select></label><label>문제 번호 / 주제<input id="reviewTopic" required placeholder="예: MCQ #7 · Agent's duties"></label><label>틀린 이유<textarea id="reviewReason" rows="2" placeholder="Principal과 Agent의 의무를 혼동"></textarea></label><label>핵심 규칙 (영어)<textarea id="reviewRule" rows="3" required placeholder="Agent → duty to account"></textarea></label><button class="primary">오답 저장</button></form></div><div class="panel"><h2>복습 예정</h2><p class="muted">저장 다음 날과 7일 후 복습하도록 표시됩니다.</p><div id="dueReviews"></div></div></div><div class="panel"><h2>전체 오답노트</h2><div id="reviewHistory"></div></div></section><section id="settings" class="page"><div class="panel"><h2>시험 일정과 목표</h2><form id="settingsForm"><label>목표 시험일<input id="targetDate" type="date" required></label><label>시험 시간<input id="targetTime" type="time" required></label><label>하루 공부 목표 (분)<input id="dailyGoal" type="number" min="1" required></label><button class="primary">설정 저장</button></form></div><div class="panel"><h2>데이터 백업 · 복원</h2><p class="muted">현재 버전은 이 기기의 브라우저에 자동 저장됩니다. 다른 기기와 자동 동기화하려면 추후 Supabase 연결이 필요합니다. 브라우저 데이터를 지우면 기록이 사라질 수 있으니 백업하세요.</p><div class="inline"><button id="exportBtn">JSON 백업 다운로드</button><label class="upload">JSON 백업 불러오기<input type="file" id="importFile" accept=".json,application/json" hidden></label></div></div></section><footer>REG Study Tracker v2.0 · Study targets are planning benchmarks, not official AICPA passing thresholds.</footer></main></div><script>const $=id=>document.getElementById(id);
+const names=["Ethics & Professional Responsibilities","Federal Tax Authority & Procedures","Business Organizations","Contracts","Agency & Regulation","Secured Transactions & Debtor-Creditor","Basis & Cost Recovery","Gross Income & Exclusions","Business Earnings & Employment Taxes","Adjustments & Deductions","Federal Taxation of Individuals","C Corporations","Flow-Through Entities & Book-to-Tax"];
+const weeks=[
+{start:"2026-11-23",goal:"Unit 3–4 · Business Organizations / Contracts",days:["Unit 3 MCQ 20문제 + 오답","Unit 3 MCQ 20~25문제 + Digital Book 보충","Unit 3 오답 재풀이 + Unit 4 시작","Unit 4 MCQ 20문제 + 해설","Unit 4 MCQ 20~25문제 + 오답","Unit 3–4 혼합 MCQ 30문제","오답 복습 + TBS 1개"]},
+{start:"2026-11-30",goal:"Unit 5–6 · Agency / Secured Transactions",days:["Unit 5 Agency MCQ 20문제","Unit 5 MCQ 20문제 + 오답","Unit 5 재풀이 + Unit 6 개념","Unit 6 MCQ 20문제","Unit 6 MCQ 20문제 + 오답","Unit 3–6 혼합 MCQ 30문제","Law 취약 개념 + TBS 1개"]},
+{start:"2026-12-07",goal:"Unit 1–2 · Ethics / Federal Tax Procedures",days:["Unit 1 Digital Book + MCQ 15문제","Unit 1 MCQ 20문제 + 오답","Unit 2 Digital Book 전반부 + MCQ","Unit 2 Digital Book 후반부 + MCQ","Unit 2 MCQ 20문제 + 오답","Unit 1–2 혼합 MCQ + TBS 1개","Unit 1–6 혼합 MCQ 30문제"]},
+{start:"2026-12-14",goal:"Unit 7 · Basis & Cost Recovery",days:["Unit 7 Basis 개념 + MCQ","Property Basis 계산 MCQ","Gain/Loss 개념 + MCQ","Depreciation / MACRS 개념 + MCQ","Cost Recovery 계산 MCQ","Unit 7 TBS 2개 + 해설","Unit 7 종합 MCQ + 공식 정리"]},
+{start:"2026-12-21",goal:"Unit 8–9 · Gross Income / Business Earnings",days:["Unit 8 Digital Book 전반부 + MCQ","Unit 8 후반부 + MCQ","Unit 8 오답 + TBS 1개","Unit 9 Digital Book 전반부 + MCQ","Unit 9 후반부 + MCQ","Unit 9 MCQ + 오답","Unit 8–9 혼합 MCQ + TBS"]},
+{start:"2026-12-28",goal:"Unit 10–11 · Deductions / Individual Tax",days:["Unit 10 Digital Book 전반부 + MCQ","Unit 10 후반부 + MCQ","Unit 10 MCQ + 오답","Unit 11 Individual Tax 개념 + MCQ","Unit 11 Individual Tax 계산 연습","Unit 11 MCQ + TBS","Unit 10–11 혼합 MCQ + 오답"]},
+{start:"2027-01-04",goal:"Unit 12–13 · C Corporations / Flow-Through",days:["Unit 12 C Corporation 개념 + MCQ","Unit 12 계산 문제 + MCQ","Unit 12 TBS + 오답","Unit 13 Partnership / S Corp 개념","Unit 13 Basis 계산 MCQ","Unit 13 TBS + 오답","Unit 12–13 혼합 MCQ + 전체 진도 점검"]},
+{start:"2027-01-11",goal:"전 범위 복습 · MCQ + TBS",days:["Unit 7 Basis MCQ + TBS","Unit 10–11 Individual Tax 혼합 MCQ","Unit 12 C Corp MCQ + TBS","Unit 13 Flow-Through MCQ + TBS","Unit 1–6 Law/Ethics 혼합 MCQ","전 범위 시간 제한 MCQ 36문제 + 분석","취약 단원 복습 + TBS 2개"]},
+{start:"2027-01-18",goal:"실전 점검 · 1월 24일 시험일 재평가",days:["취약 단원 MCQ 25문제","Taxation TBS 2개 + 오답","전 범위 MCQ 36문제 시간 제한","모의고사 대비 핵심 공식 정리","가벼운 복습 및 모의고사 준비","4시간 전체 모의고사 (특별 학습일)","모의고사 분석 + 시험 날짜 유지/변경 결정"]},
+{start:"2027-01-25",goal:"취약점 보완",days:["모의고사 오답: Individual Tax","모의고사 오답: Entities","Basis / Depreciation 계산 연습","Law / Ethics 혼합 MCQ","Taxation TBS 2개","혼합 MCQ 36문제 + 분석","취약 개념 복습 및 재풀이"]},
+{start:"2027-02-01",goal:"시험 직전 실전 연습",days:["전 범위 혼합 MCQ","Taxation TBS + 해설","계산 공식 및 Basis 복습","Law / Ethics 최종 복습","모의고사 대비 가벼운 복습","4시간 전체 모의고사 (특별 학습일)","모의고사 오답 분석"]},
+{start:"2027-02-08",goal:"최종 정리 · REG 시험",days:["오답 공책 + 핵심 공식","자주 틀리는 MCQ 20문제 + TBS 1개","가벼운 복습, 신분증·시험장 확인, 일찍 취침","REG 시험 12:30 PM"]}];
+const KEY="reg-study-tracker-v1";
+const defaultData=()=>({settings:{date:"2027-02-11",time:"12:30",goal:120},done:{},custom:[],study:[],scores:[],reviews:[]});
+let db;try{db=JSON.parse(localStorage.getItem(KEY))||defaultData()}catch{db=defaultData()}
+const save=()=>{localStorage.setItem(KEY,JSON.stringify(db));render()};
+const iso=d=>{const z=new Date(d.getTime()-d.getTimezoneOffset()*60000);return z.toISOString().slice(0,10)};
+const add=(date,n)=>{const d=new Date(date+"T12:00:00");d.setDate(d.getDate()+n);return iso(d)};
+const today=iso(new Date());
+const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const allTasks=()=>weeks.flatMap((w,wi)=>w.days.map((title,di)=>({key:`w${wi}d${di}`,date:add(w.start,di),title}))).concat(db.custom.map(t=>({...t,key:"c"+t.id})));
+const taskHTML=t=>`<label class="task ${db.done[t.key]?"done":""}"><input type="checkbox" data-task="${safe(t.key)}" ${db.done[t.key]?"checked":""}><span>${safe(t.title)}</span></label>`;
+const units=()=>names.map((n,i)=>`<option value="${i+1}">Unit ${i+1} · ${safe(n)}</option>`).join("");
+function render(){
+ const tasks=allTasks(),finished=tasks.filter(t=>db.done[t.key]).length,percent=tasks.length?Math.round(100*finished/tasks.length):0;
+ const days=Math.ceil((new Date(db.settings.date+"T12:00:00")-new Date(today+"T12:00:00"))/86400000);
+ $("dday").textContent=days>=0?`D-${days}`:`D+${-days}`;$("examDate").textContent=db.settings.date;$("examPill").textContent=`REG · ${db.settings.date} ${db.settings.time}`;
+ $("progressNum").textContent=percent+"%";$("progressBar").style.width=percent+"%";
+ $("hoursNum").textContent=(db.study.reduce((a,x)=>a+x.minutes,0)/60).toFixed(1)+"h";
+ const total=db.scores.reduce((a,x)=>a+x.total,0),correct=db.scores.reduce((a,x)=>a+x.correct,0);
+ $("accuracyNum").textContent=total?Math.round(correct/total*100)+"%":"—";$("questionsNum").textContent=total?`${correct} / ${total}문제`:"기록 없음";
+ const date=$("dayPicker").value||today;$("todayTasks").innerHTML=tasks.filter(t=>t.date===date).map(taskHTML).join("")||'<p class="muted">이 날짜에는 계획된 할 일이 없어요. 직접 추가할 수 있어요.</p>';
+ $("studyHistory").innerHTML=db.study.slice(-5).reverse().map(x=>`<div class="mini">${safe(x.date)} · ${x.minutes}분 · ${safe(x.memo)}</div>`).join("");
+ const wi=Number($("weekSelect").value||0),w=weeks[wi];$("weekGoal").textContent=`${w.start} · ${w.goal}`;$("weekTasks").innerHTML=w.days.map((t,i)=>taskHTML({key:`w${wi}d${i}`,title:`${add(w.start,i)} · ${t}`})).join("");
+ $("prevWeek").disabled=wi===0;$("nextWeek").disabled=wi===weeks.length-1;
+ $("unitScores").innerHTML=names.map((n,i)=>{const s=db.scores.filter(x=>x.unit===i+1),t=s.reduce((a,x)=>a+x.total,0),c=s.reduce((a,x)=>a+x.correct,0),p=t?Math.round(c/t*100):0;return `<div><small>Unit ${i+1} · ${safe(n)} — ${t?p+"% ("+t+"문제)":"미기록"}</small><div class="bar"><div style="width:${p}%"></div></div></div>`}).join("");
+ $("scoreHistory").innerHTML=db.scores.slice().reverse().map(x=>`<div class="entry"><b>${safe(x.date)} · Unit ${x.unit}</b> — ${x.correct}/${x.total} (${Math.round(x.correct/x.total*100)}%)<br><small>${safe(x.memo)}</small><button data-delete="score:${x.id}">삭제</button></div>`).join("")||'<p class="muted">아직 기록이 없어요.</p>';
+ const due=db.reviews.filter(x=>!x.done7&&add(x.date,7)<=today||!x.done1&&add(x.date,1)<=today);
+ $("dueReviews").innerHTML=due.map(x=>`<div class="entry"><b>Unit ${x.unit} · ${safe(x.topic)}</b><p>${safe(x.rule)}</p><button data-review="${x.id}" data-stage="${!x.done1?"1":"7"}">복습 완료</button></div>`).join("")||'<p class="muted">현재 복습 예정 항목이 없어요.</p>';
+ $("reviewHistory").innerHTML=db.reviews.slice().reverse().map(x=>`<div class="entry"><b>Unit ${x.unit} · ${safe(x.topic)}</b><br><small>${safe(x.date)} · 틀린 이유: ${safe(x.reason)}</small><p>${safe(x.rule)}</p><small>다음날 ${x.done1?"✓":"○"} · 7일 후 ${x.done7?"✓":"○"}</small><button data-delete="review:${x.id}">삭제</button></div>`).join("")||'<p class="muted">아직 기록이 없어요.</p>';
+}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id===b.dataset.tab));$("heading").textContent=({dashboard:"오늘의 공부",planner:"주간 학습 계획",scores:"MCQ 성적 관리",reviews:"오답 복습 노트",settings:"설정과 데이터 백업"})[b.dataset.tab]}));
+$("dayPicker").value=today;$("scoreDate").value=today;
+$("weekSelect").innerHTML=weeks.map((w,i)=>`<option value="${i}">Week ${i+1} · ${w.start} · ${safe(w.goal)}</option>`).join("");
+const current=weeks.findIndex((w,i)=>today>=w.start&&(i===weeks.length-1||today<weeks[i+1].start));$("weekSelect").value=String(Math.max(current,0));
+$("scoreUnit").innerHTML=units();$("reviewUnit").innerHTML=units();
+$("weekSelect").addEventListener("change",render);$("dayPicker").addEventListener("change",render);
+$("prevWeek").onclick=()=>{$("weekSelect").value=Number($("weekSelect").value)-1;render()};
+$("nextWeek").onclick=()=>{$("weekSelect").value=Number($("weekSelect").value)+1;render()};
+document.addEventListener("change",e=>{if(e.target.dataset.task){db.done[e.target.dataset.task]=e.target.checked;save()}});
+$("customTaskForm").onsubmit=e=>{e.preventDefault();db.custom.push({id:Date.now(),date:$("dayPicker").value,title:$("customTask").value.trim()});$("customTask").value="";save()};
+$("studyForm").onsubmit=e=>{e.preventDefault();db.study.push({id:Date.now(),date:$("dayPicker").value,minutes:Number($("minutes").value),memo:$("studyMemo").value});$("studyMemo").value="";save()};
+$("scoreForm").onsubmit=e=>{e.preventDefault();const total=Number($("scoreTotal").value),correct=Number($("scoreCorrect").value);if(correct>total){alert("정답 수는 문제 수보다 클 수 없습니다.");return}db.scores.push({id:Date.now(),date:$("scoreDate").value,unit:Number($("scoreUnit").value),total,correct,memo:$("scoreMemo").value});$("scoreTotal").value="";$("scoreCorrect").value="";$("scoreMemo").value="";save()};
+$("reviewForm").onsubmit=e=>{e.preventDefault();db.reviews.push({id:Date.now(),date:today,unit:Number($("reviewUnit").value),topic:$("reviewTopic").value,reason:$("reviewReason").value,rule:$("reviewRule").value,done1:false,done7:false});e.target.reset();save()};
+document.addEventListener("click",e=>{if(e.target.dataset.delete){const [type,id]=e.target.dataset.delete.split(":");if(confirm("이 기록을 삭제할까요?")){db[type==="score"?"scores":"reviews"]=db[type==="score"?"scores":"reviews"].filter(x=>x.id!==Number(id));save()}}if(e.target.dataset.review){const r=db.reviews.find(x=>x.id===Number(e.target.dataset.review));if(r){r["done"+e.target.dataset.stage]=true;save()}}});
+$("targetDate").value=db.settings.date;$("targetTime").value=db.settings.time;$("dailyGoal").value=db.settings.goal;
+$("settingsForm").onsubmit=e=>{e.preventDefault();db.settings={date:$("targetDate").value,time:$("targetTime").value,goal:Number($("dailyGoal").value)};save();alert("저장되었습니다.")};
+$("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="reg-study-backup-"+today+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("importFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!x.settings||!Array.isArray(x.scores)||!Array.isArray(x.reviews)||!Array.isArray(x.study)||!Array.isArray(x.custom)||typeof x.done!=="object")throw Error("백업 형식이 올바르지 않습니다.");if(confirm("현재 데이터를 백업 파일로 덮어쓸까요?")){db=x;save();location.reload()}}catch(err){alert("불러오기 실패: "+err.message)}};
+render();</script></body></html>
