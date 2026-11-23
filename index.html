@@ -156,7 +156,13 @@ function streak(){const dates=new Set(db.study.filter(x=>Number(x.minutes)>0).ma
 function renderV3(){
  const date=$("dayPicker").value||today,extras=extraTasks(date);
  const container=$("todayTasks");
- if(container&&extras.length)container.insertAdjacentHTML("beforeend",extras.map(t=>taskHTML(t)).join(""));
+ if(container){
+  container.querySelectorAll('[data-task^="v3:"]').forEach(input=>input.closest(".task")?.remove());
+  if(extras.length){
+    const empty=container.querySelector("p.muted");if(empty)empty.remove();
+    container.insertAdjacentHTML("beforeend",extras.map(t=>taskHTML(t)).join(""));
+  }
+ }
  $("streakCount").textContent=streak()+"일";
  const now=new Date(today+"T12:00:00");now.setDate(1);now.setMonth(now.getMonth()+calendarOffset);
  const year=now.getFullYear(),month=now.getMonth();$("calMonth").textContent=year+"년 "+(month+1)+"월";
@@ -181,7 +187,7 @@ $("focusStart").onclick=()=>{if(focusInterval||remaining<=0)return;focusEnd=Date
 $("focusPause").onclick=()=>{if(!focusInterval)return;tick();stop();$("focusStatus").textContent="일시정지"};
 $("focusReset").onclick=()=>preset(sessionMinutes);
 $("focusLog").onclick=()=>{if(!completedMinutes)return;db.study.push({id:Date.now(),date:today,minutes:completedMinutes,memo:"Focus Timer "+completedMinutes+"분 완료"});preset(sessionMinutes);save();alert("집중 시간이 공부 기록에 추가되었습니다.")};
-document.addEventListener("change",e=>{if(e.target.matches('[data-task^="v3:"]'))setTimeout(renderV3,0)});
+/* Existing delegated checkbox handler saves all task keys, including V3 keys. */
 renderV3();clock();
 })();
 </script><style>#reg-cloud{position:fixed;bottom:12px;right:12px;z-index:100;background:white;border:1px solid #e1e5ee;border-radius:14px;padding:13px;box-shadow:0 8px 35px #18253d26;width:min(340px,calc(100vw - 24px));font:13px system-ui}#reg-cloud button{padding:8px 10px;margin:5px 4px 0 0}#reg-cloud small{display:block;color:#64748b;margin-top:7px}#reg-cloud input{margin-top:8px}</style><div id="reg-cloud"><b>☁ REG 클라우드 동기화</b><div id="reg-cloud-ui">연결 중...</div><small id="reg-cloud-status"></small></div><script type="module">
